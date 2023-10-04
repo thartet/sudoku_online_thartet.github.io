@@ -66,22 +66,22 @@ async function solveSudoku() {
     }
 }
 
-function solveSudokuHelper(board) {
+function solveSudokuHelper(sudokuArray) {
     const gridSize = 9;
 
     for (let row = 0; row < gridSize; row++) {
         for (let col = 0; col < gridSize; col++) {
-            if (board[row][col] === 0) {
+            if (sudokuArray[row][col] === 0) {
                 for (let num = 1; num <= 9; num++) {
-                    if (isValidMove(board, row, col, num)) {
-                        board[row][col] = num;
+                    if (isValidMove(sudokuArray, row, col, num)) {
+                        sudokuArray[row][col] = num;
 
                         // Recursively attempt to solve the Sudoku
-                        if (solveSudokuHelper(board)) {
+                        if (solveSudokuHelper(sudokuArray)) {
                             return true; // Puzzle solved
                         }
 
-                        board[row][col] = 0; // Backtrack
+                        sudokuArray[row][col] = 0; // Backtrack
                     }
                 }
                 return false; // No valid number found
@@ -92,12 +92,12 @@ function solveSudokuHelper(board) {
     return true; // All cells filled
 }
 
-function isValidMove(board, row, col, num) {
+function isValidMove(sudokuArray, row, col, num) {
     const gridSize = 9;
 
     // Check row and column for conflicts
     for (let i = 0; i < gridSize; i++) {
-        if (board[row][i] === num || board[i][col] === num) {
+        if (sudokuArray[row][i] === num || sudokuArray[i][col] === num) {
             return false; // Conflict found
         }
     }
@@ -108,7 +108,7 @@ function isValidMove(board, row, col, num) {
 
     for (let i = startRow; i < startRow + 3; i++) {
         for (let j = startCol; j < startCol + 3; j++) {
-            if (board[i][j] === num) {
+            if (sudokuArray[i][j] === num) {
                 return false; // Conflict found
             }
         }
